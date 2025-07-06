@@ -209,14 +209,278 @@
         </div>
     </section>
 
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpha Builder - Forge Your Legacy</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom Styles -->
+    <style>
+        /* Base body styles */
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Poppins', 'Inter', sans-serif;
+        }
+
+        /* Hero section background image and overlay */
+        .hero-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .hero-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,1) 5%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,1) 100%);
+            z-index: -1;
+        }
+        
+        /* Glassmorphism effect for the header */
+        .header-glass {
+            background-color: rgba(10, 10, 10, 0.4);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Neon effect for text */
+        .neon-text {
+            text-shadow: 0 0 8px #ff0000, 0 0 15px #ff0000, 0 0 25px #ff0000;
+        }
+
+        /* Animated shiny effect for buttons */
+        .btn-shiny {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid #ff0000;
+            color: #ff0000;
+            padding: 0.8rem 2.25rem;
+            font-weight: 600;
+        }
+        .btn-shiny:hover {
+            background-color: #ff0000;
+            color: #ffffff;
+            box-shadow: 0 0 25px #ff0000;
+        }
+        .btn-shiny::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s ease;
+        }
+        .btn-shiny:hover::before {
+            left: 100%;
+        }
+
+        /* General section title styling */
+        .section-title {
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: 700;
+        }
+
+        /* Trainer image overlay transition */
+        .trainer-overlay {
+            transition: opacity 0.4s ease;
+        }
+
+        /* Mobile Menu Icon (Hamburger to Cross animation) */
+        .menu-icon {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 28px;
+            height: 24px;
+            background: transparent;
+            border: none;
+            z-index: 100;
+        }
+        .menu-icon .line {
+            width: 100%;
+            height: 3px;
+            background-color: white;
+            border-radius: 2px;
+            transition: all 0.3s ease-in-out;
+        }
+        .menu-icon.open .line-1 {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+        .menu-icon.open .line-2 {
+            opacity: 0;
+        }
+        .menu-icon.open .line-3 {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* Animated Mobile Menu Container */
+        #mobile-menu {
+            transform: translateY(-100%);
+            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            opacity: 0;
+            pointer-events: none; /* Prevent interaction when hidden */
+            background-color: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+        }
+        #mobile-menu.open {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto; /* Allow interaction when open */
+        }
+        #mobile-menu a {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+         #mobile-menu a:last-of-type {
+            border-bottom: none;
+        }
+
+        /* Scroll-triggered animation styles */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .scroll-animate.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* FAQ Accordion styles */
+        .faq-item summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 1.5rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::after {
+            content: '\f078'; /* Font Awesome chevron-down */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            transition: transform 0.3s ease;
+        }
+        .faq-item[open] summary { color: #ff0000; }
+        .faq-item[open] summary::after { transform: rotate(180deg); }
+        .faq-content {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            color: #d1d5db;
+            line-height: 1.7;
+        }
+    </style>
+</head>
+<body class="bg-black">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 header-glass" id="header">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#" class="text-2xl md:text-3xl font-black uppercase tracking-wider" style="font-family: 'Inter', sans-serif;">Alpha<span class="text-red-500">Builder</span></a>
+            
+            <!-- Desktop Menu: Hidden by default, shown on large screens -->
+            <div class="hidden lg:flex items-center space-x-8 font-semibold">
+                <a href="#about" class="text-white hover:text-red-500 transition">About</a>
+                <a href="#trainers" class="text-white hover:text-red-500 transition">Trainers</a>
+                <a href="#classes" class="text-white hover:text-red-500 transition">Classes</a>
+                <a href="#pricing" class="text-white hover:text-red-500 transition">Pricing</a>
+                <a href="#faq" class="text-white hover:text-red-500 transition">FAQ</a>
+                <a href="#contact" class="text-white hover:text-red-500 transition">Contact</a>
+            </div>
+            <a href="#pricing" class="hidden lg:block btn-shiny rounded-full uppercase">Join Now</a>
+            
+            <!-- Mobile Menu Button: Shown by default, hidden on large screens -->
+            <button id="mobile-menu-button" class="lg:hidden menu-icon">
+                <div class="line line-1"></div>
+                <div class="line line-2"></div>
+                <div class="line line-3"></div>
+            </button>
+        </nav>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="absolute top-full left-0 w-full lg:hidden">
+            <a href="#about" class="block text-center text-white py-4 hover:bg-red-500/50 transition"><i class="fa-solid fa-circle-info w-5"></i> About</a>
+            <a href="#trainers" class="block text-center text-white py-4 hover:bg-red-500/50 transition"><i class="fa-solid fa-users w-5"></i> Trainers</a>
+            <a href="#classes" class="block text-center text-white py-4 hover:bg-red-500/50 transition"><i class="fa-solid fa-calendar-days w-5"></i> Classes</a>
+            <a href="#pricing" class="block text-center text-white py-4 hover:bg-red-500/50 transition"><i class="fa-solid fa-tags w-5"></i> Pricing</a>
+            <a href="#faq" class="block text-center text-white py-4 hover:bg-red-500/50 transition"><i class="fa-solid fa-circle-question w-5"></i> FAQ</a>
+            <a href="#contact" class="block text-center text-white py-4 hover:bg-red-500/50 transition"><i class="fa-solid fa-envelope w-5"></i> Contact</a>
+            <div class="p-6">
+                <a href="#pricing" class="block text-center btn-shiny rounded-full uppercase w-full">Join Now</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center justify-center text-center overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1574680096145-f844349f0409?q=80&w=2069&auto=format&fit=crop" alt="Dark gym background with a person doing a workout" class="hero-image">
+        <div class="hero-overlay absolute top-0 left-0 w-full h-full"></div>
+        <div class="relative z-10 px-4 scroll-animate">
+            <h1 class="font-black text-5xl md:text-7xl lg:text-8xl text-white uppercase neon-text tracking-wider" style="font-family: 'Inter', sans-serif;">Forge Your Legacy</h1>
+            <p class="text-lg md:text-xl max-w-2xl mx-auto mt-4 mb-8 text-gray-200">Unleash your potential. Crush your goals. Become the alpha version of yourself at the most elite fitness facility in the city.</p>
+            <a href="#pricing" class="btn-shiny text-lg md:text-xl rounded-full uppercase tracking-wider">Book Free Trial</a>
+        </div>
+    </section>
+
+    <!-- Stats Counter Section -->
+    <section id="about" class="py-20 bg-black overflow-hidden">
+        <div class="container mx-auto px-6 scroll-animate">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="p-8 bg-gray-900/50 rounded-3xl border border-gray-800"><h3 class="font-bold text-5xl md:text-6xl text-red-500 counter" data-target="2000">0</h3><p class="text-base md:text-lg text-gray-400 mt-2 uppercase tracking-widest">Members</p></div>
+                <div class="p-8 bg-gray-900/50 rounded-3xl border border-gray-800"><h3 class="font-bold text-5xl md:text-6xl text-red-500 counter" data-target="10">0</h3><p class="text-base md:text-lg text-gray-400 mt-2 uppercase tracking-widest">Years of Experience</p></div>
+                <div class="p-8 bg-gray-900/50 rounded-3xl border border-gray-800"><h3 class="font-bold text-5xl md:text-6xl text-red-500 counter" data-target="15">0</h3><p class="text-base md:text-lg text-gray-400 mt-2 uppercase tracking-widest">Certified Trainers</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trainers Section -->
+    <section id="trainers" class="py-20 bg-gray-900 overflow-hidden">
+        <div class="container mx-auto px-6 scroll-animate">
+            <h2 class="section-title text-3xl md:text-4xl text-center mb-12">Meet Our Elite Trainers</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="relative group overflow-hidden rounded-3xl"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2070&auto=format&fit=crop" alt="Trainer Jessica Ray" class="w-full h-96 object-cover transform group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6 trainer-overlay rounded-3xl"><h3 class="text-2xl font-bold text-white">Jessica Ray</h3><p class="text-red-500 font-semibold">Strength & Conditioning</p></div></div>
+                <div class="relative group overflow-hidden rounded-3xl"><img src="https://images.unsplash.com/photo-1548690312-e3b511d48c04?q=80&w=1887&auto=format&fit=crop" alt="Intense male boxer training" class="w-full h-96 object-cover transform group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6 trainer-overlay rounded-3xl"><h3 class="text-2xl font-bold text-white">Mark 'Rhino' Riley</h3><p class="text-red-500 font-semibold">Boxing & HIIT</p></div></div>
+                <div class="relative group overflow-hidden rounded-3xl"><img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?q=80&w=1887&auto=format&fit=crop" alt="Trainer Sarah Connor" class="w-full h-96 object-cover transform group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6 trainer-overlay rounded-3xl"><h3 class="text-2xl font-bold text-white">Sarah Connor</h3><p class="text-red-500 font-semibold">Yoga & Flexibility</p></div></div>
+                <div class="relative group overflow-hidden rounded-3xl"><img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?q=80&w=2070&auto=format&fit=crop" alt="Male trainer focused on crossfit" class="w-full h-96 object-cover transform group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6 trainer-overlay rounded-3xl"><h3 class="text-2xl font-bold text-white">David Chen</h3><p class="text-red-500 font-semibold">CrossFit & Endurance</p></div></div>
+            </div>
+        </div>
+    </section>
+    
     <!-- Testimonials Section -->
     <section id="testimonials" class="py-20 bg-black overflow-hidden">
         <div class="container mx-auto px-6 scroll-animate">
             <h2 class="section-title text-3xl md:text-4xl text-center mb-12">What Our Members Say</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div class="bg-gray-900 p-8 rounded-3xl border border-gray-800"><p class="text-gray-300 italic">"Alpha Builder isn't just a gym, it's a community. The trainers are world-class and the atmosphere is electric. I've made more progress here in 6 months than I did in 3 years elsewhere."</p><div class="flex items-center mt-6"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Member 1" class="w-14 h-14 rounded-full object-cover"><div class="ml-4"><p class="font-bold text-white">John Doe</p><p class="text-sm text-red-500">Lost 20lbs</p></div></div></div>
-                <div class="bg-gray-900 p-8 rounded-3xl border border-gray-800"><p class="text-gray-300 italic">"The facilities are top-notch and always clean. The variety of classes keeps me motivated. Highly recommend the boxing class with Mike - it's a killer workout!"</p><div class="flex items-center mt-6"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Member 2" class="w-14 h-14 rounded-full object-cover"><div class="ml-4"><p class="font-bold text-white">Jane Smith</p><p class="text-sm text-red-500">Gained 5lbs of Muscle</p></div></div></div>
-                <div class="bg-gray-900 p-8 rounded-3xl border border-gray-800 md:col-span-2 lg:col-span-1"><p class="text-gray-300 italic">"I was intimidated to join a gym, but the staff and members at Alpha Builder were so welcoming. The personal training has been a game-changer for my confidence and strength."</p><div class="flex items-center mt-6"><img src="https://randomuser.me/api/portraits/men/56.jpg" alt="Member 3" class="w-14 h-14 rounded-full object-cover"><div class="ml-4"><p class="font-bold text-white">Alex Johnson</p><p class="text-sm text-red-500">New Lifter</p></div></div></div>
+                <div class="bg-gray-900 p-8 rounded-3xl border border-gray-800"><p class="text-gray-300 italic">"The facilities are top-notch and always clean. The variety of classes keeps me motivated. Highly recommend the boxing class with Mark - it's a killer workout!"</p><div class="flex items-center mt-6"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Member 2" class="w-14 h-14 rounded-full object-cover"><div class="ml-4"><p class="font-bold text-white">Jane Smith</p><p class="text-sm text-red-500">Gained 5lbs of Muscle</p></div></div></div>
+                <div class="bg-gray-900 p-8 rounded-3xl border border-gray-800 lg:col-span-1"><p class="text-gray-300 italic">"I was intimidated to join a gym, but the staff and members at Alpha Builder were so welcoming. The personal training has been a game-changer for my confidence and strength."</p><div class="flex items-center mt-6"><img src="https://randomuser.me/api/portraits/men/56.jpg" alt="Member 3" class="w-14 h-14 rounded-full object-cover"><div class="ml-4"><p class="font-bold text-white">Alex Johnson</p><p class="text-sm text-red-500">New Lifter</p></div></div></div>
             </div>
         </div>
     </section>
@@ -225,32 +489,30 @@
     <section id="classes" class="py-20 bg-gray-900 overflow-hidden">
         <div class="container mx-auto px-6 scroll-animate">
             <h2 class="section-title text-3xl md:text-4xl text-center mb-12">Class Schedule</h2>
-            <div class="overflow-x-auto rounded-3xl">
-                <table class="w-full text-center text-white bg-black">
-                    <thead class="bg-red-500 text-black font-bold text-lg">
-                        <tr><th class="p-4">Time</th><th class="p-4">Monday</th><th class="p-4">Tuesday</th><th class="p-4">Wednesday</th><th class="p-4">Thursday</th><th class="p-4">Friday</th><th class="p-4">Saturday</th></tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-800">
-                        <tr class="hover:bg-gray-800 transition"><td class="p-4 font-bold text-red-500">6:00 AM</td><td>CrossFit</td><td>HIIT</td><td>CrossFit</td><td>HIIT</td><td>CrossFit</td><td>Open Gym</td></tr>
-                        <tr class="hover:bg-gray-800 transition"><td class="p-4 font-bold text-red-500">9:00 AM</td><td>Yoga</td><td>Spin</td><td>Yoga</td><td>Spin</td><td>Yoga</td><td>Boxing</td></tr>
-                        <tr class="hover:bg-gray-800 transition"><td class="p-4 font-bold text-red-500">5:00 PM</td><td>Strength</td><td>Boxing</td><td>Strength</td><td>Zumba</td><td>Strength</td><td>HIIT</td></tr>
-                        <tr class="hover:bg-gray-800 transition"><td class="p-4 font-bold text-red-500">7:00 PM</td><td>HIIT</td><td>Yoga</td><td>Boxing</td><td>CrossFit</td><td>Spin</td><td>Open Gym</td></tr>
+            <div class="overflow-x-auto rounded-3xl border border-gray-800">
+                <table class="w-full min-w-[640px] text-center text-white bg-black">
+                    <thead class="bg-red-600 text-white font-bold text-sm sm:text-lg"><tr class="border-b border-red-800"><th class="p-4">Time</th><th class="p-4">Monday</th><th class="p-4">Tuesday</th><th class="p-4">Wednesday</th><th class="p-4">Thursday</th><th class="p-4">Friday</th><th class="p-4">Saturday</th></tr></thead>
+                    <tbody class="divide-y divide-gray-800 text-xs sm:text-base">
+                        <tr class="hover:bg-gray-800/50 transition"><td class="p-4 font-bold text-red-500">6:00 AM</td><td>CrossFit</td><td>HIIT</td><td>CrossFit</td><td>HIIT</td><td>CrossFit</td><td>Open Gym</td></tr>
+                        <tr class="hover:bg-gray-800/50 transition"><td class="p-4 font-bold text-red-500">9:00 AM</td><td>Yoga</td><td>Spin</td><td>Yoga</td><td>Spin</td><td>Yoga</td><td>Boxing</td></tr>
+                        <tr class="hover:bg-gray-800/50 transition"><td class="p-4 font-bold text-red-500">5:00 PM</td><td>Strength</td><td>Boxing</td><td>Strength</td><td>Zumba</td><td>Strength</td><td>HIIT</td></tr>
+                        <tr class="hover:bg-gray-800/50 transition"><td class="p-4 font-bold text-red-500">7:00 PM</td><td>HIIT</td><td>Yoga</td><td>Boxing</td><td>CrossFit</td><td>Spin</td><td>Open Gym</td></tr>
                     </tbody>
                 </table>
             </div>
-            <div class="text-center mt-12"><a href="#contact" class="btn-neon text-lg rounded-full uppercase tracking-wider">Book a Class</a></div>
+            <div class="text-center mt-12"><a href="#contact" class="btn-shiny text-lg rounded-full uppercase tracking-wider">Book a Class</a></div>
         </div>
     </section>
 
-    <!-- Gallery / Virtual Tour Section -->
+    <!-- Gallery Section -->
     <section id="gallery" class="py-20 bg-black overflow-hidden">
         <div class="container mx-auto px-6 scroll-animate">
             <h2 class="section-title text-3xl md:text-4xl text-center mb-12">Virtual Tour</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="grid gap-4"><div><img class="h-auto max-w-full rounded-3xl" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop" alt="Gym interior view 1"></div><div><img class="h-auto max-w-full rounded-3xl" src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=2070&auto=format&fit=crop" alt="Gym interior view 2"></div></div>
-                <div class="grid gap-4"><div><img class="h-auto max-w-full rounded-3xl" src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=1975&auto=format&fit=crop" alt="Gym interior view 3"></div><div><img class="h-auto max-w-full rounded-3xl" src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=2070&auto=format&fit=crop" alt="Gym interior view 4"></div></div>
-                <div class="grid gap-4"><div><img class="h-auto max-w-full rounded-3xl" src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=2069&auto=format&fit=crop" alt="Gym interior view 5"></div><div><img class="h-auto max-w-full rounded-3xl" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2070&auto=format&fit=crop" alt="Gym interior view 6"></div></div>
-                <div class="grid gap-4"><div><img class="h-auto max-w-full rounded-3xl" src="https://images.unsplash.com/photo-1554344728-77cf90d922a2?q=80&w=2070&auto=format&fit=crop" alt="Gym interior view 7"></div><div><img class="h-auto max-w-full rounded-3xl" src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=1887&auto=format&fit=crop" alt="Gym interior view 8"></div></div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
+                <div class="grid gap-2 sm:gap-4"><div><img class="h-auto max-w-full rounded-xl md:rounded-3xl" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop" alt="Gym interior view 1"></div><div><img class="h-auto max-w-full rounded-xl md:rounded-3xl" src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=2070&auto=format&fit=crop" alt="Gym interior view 2"></div></div>
+                <div class="grid gap-2 sm:gap-4"><div><img class="h-auto max-w-full rounded-xl md:rounded-3xl" src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=1975&auto=format&fit=crop" alt="Gym interior view 3"></div><div><img class="h-auto max-w-full rounded-xl md:rounded-3xl" src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=2070&auto=format&fit=crop" alt="Gym interior view 4"></div></div>
+                <div class="grid gap-2 sm:gap-4"><div><img class="h-auto max-w-full rounded-xl md:rounded-3xl" src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=2069&auto=format&fit=crop" alt="Gym interior view 5"></div><div><img class="h-auto max-w-full rounded-xl md:rounded-3xl" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2070&auto=format&fit=crop" alt="Gym interior view 6"></div></div>
+                <div class="grid gap-2 sm:gap-4"><div><img class="h-auto max-w-full rounded-xl md:rounded-3xl" src="https://images.unsplash.com/photo-1519505907962-0a6cb0167c73?q=80&w=2070&auto=format&fit=crop" alt="Gym interior view 7"></div><div><img class="h-auto max-w-full rounded-xl md:rounded-3xl" src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=1887&auto=format&fit=crop" alt="Gym interior view 8"></div></div>
             </div>
         </div>
     </section>
@@ -260,25 +522,9 @@
         <div class="container mx-auto px-6 scroll-animate">
             <h2 class="section-title text-3xl md:text-4xl text-center mb-12">Membership Plans</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-black p-8 rounded-3xl border-2 border-gray-800 flex flex-col hover:border-red-500/50 transition duration-300">
-                    <h3 class="font-bold text-3xl text-center">Basic</h3><p class="text-center text-gray-400 mb-6">Perfect for starters</p><p class="font-bold text-6xl text-center text-red-500 mb-6">₹3000<span class="text-xl font-normal text-gray-400">/mo</span></p>
-                    <ul class="space-y-4 text-gray-300 flex-grow mb-8">
-                        <li><i class="fas fa-check text-red-500 mr-2"></i>Full Gym Access</li><li><i class="fas fa-check text-red-500 mr-2"></i>Locker Rooms</li><li><i class="fas fa-times text-gray-600 mr-2"></i>Group Classes</li><li><i class="fas fa-times text-gray-600 mr-2"></i>Personal Training</li>
-                    </ul><a href="#" class="w-full mt-auto block text-center bg-gray-700 text-white font-bold py-4 px-8 rounded-full uppercase hover:bg-gray-600 transition">Sign Up</a>
-                </div>
-                <div class="bg-black p-8 rounded-3xl border-2 border-red-500 flex flex-col transform md:scale-105 relative">
-                    <span class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-4 bg-red-500 text-white text-sm font-bold px-4 py-1 rounded-full uppercase">Most Popular</span>
-                    <h3 class="font-bold text-3xl text-center mt-4">Pro</h3><p class="text-center text-gray-400 mb-6">For the dedicated</p><p class="font-bold text-6xl text-center text-red-500 mb-6">₹5000<span class="text-xl font-normal text-gray-400">/mo</span></p>
-                    <ul class="space-y-4 text-gray-300 flex-grow mb-8">
-                        <li><i class="fas fa-check text-red-500 mr-2"></i>Full Gym Access</li><li><i class="fas fa-check text-red-500 mr-2"></i>Locker Rooms</li><li><i class="fas fa-check text-red-500 mr-2"></i>All Group Classes</li><li><i class="fas fa-times text-gray-600 mr-2"></i>Personal Training</li>
-                    </ul><a href="#" class="w-full mt-auto block text-center btn-neon rounded-full uppercase">Sign Up</a>
-                </div>
-                <div class="bg-black p-8 rounded-3xl border-2 border-gray-800 flex flex-col hover:border-red-500/50 transition duration-300">
-                    <h3 class="font-bold text-3xl text-center">Elite</h3><p class="text-center text-gray-400 mb-6">All-in access</p><p class="font-bold text-6xl text-center text-red-500 mb-6">₹8000<span class="text-xl font-normal text-gray-400">/mo</span></p>
-                    <ul class="space-y-4 text-gray-300 flex-grow mb-8">
-                        <li><i class="fas fa-check text-red-500 mr-2"></i>Full Gym Access</li><li><i class="fas fa-check text-red-500 mr-2"></i>Locker Rooms</li><li><i class="fas fa-check text-red-500 mr-2"></i>All Group Classes</li><li><i class="fas fa-check text-red-500 mr-2"></i>4x Personal Training/mo</li>
-                    </ul><a href="#" class="w-full mt-auto block text-center bg-gray-700 text-white font-bold py-4 px-8 rounded-full uppercase hover:bg-gray-600 transition">Sign Up</a>
-                </div>
+                <div class="bg-black p-8 rounded-3xl border-2 border-gray-800 flex flex-col hover:border-red-500/50 transition duration-300"><h3 class="font-bold text-3xl text-center">Basic</h3><p class="text-center text-gray-400 mb-6">Perfect for starters</p><p class="font-bold text-5xl md:text-6xl text-center text-red-500 mb-6">₹3000<span class="text-xl font-normal text-gray-400">/mo</span></p><ul class="space-y-4 text-gray-300 flex-grow mb-8"><li><i class="fas fa-check text-red-500 mr-2"></i>Full Gym Access</li><li><i class="fas fa-check text-red-500 mr-2"></i>Locker Rooms</li><li><i class="fas fa-times text-gray-600 mr-2"></i>Group Classes</li><li><i class="fas fa-times text-gray-600 mr-2"></i>Personal Training</li></ul><a href="#" class="w-full mt-auto block text-center bg-gray-700 text-white font-bold py-4 px-8 rounded-full uppercase hover:bg-gray-600 transition">Sign Up</a></div>
+                <div class="bg-black p-8 rounded-3xl border-2 border-red-500 flex flex-col transform md:scale-105 relative"><span class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-4 bg-red-500 text-white text-sm font-bold px-4 py-1 rounded-full uppercase">Most Popular</span><h3 class="font-bold text-3xl text-center mt-4">Pro</h3><p class="text-center text-gray-400 mb-6">For the dedicated</p><p class="font-bold text-5xl md:text-6xl text-center text-red-500 mb-6">₹5000<span class="text-xl font-normal text-gray-400">/mo</span></p><ul class="space-y-4 text-gray-300 flex-grow mb-8"><li><i class="fas fa-check text-red-500 mr-2"></i>Full Gym Access</li><li><i class="fas fa-check text-red-500 mr-2"></i>Locker Rooms</li><li><i class="fas fa-check text-red-500 mr-2"></i>All Group Classes</li><li><i class="fas fa-times text-gray-600 mr-2"></i>Personal Training</li></ul><a href="#" class="w-full mt-auto block btn-shiny rounded-full uppercase">Sign Up</a></div>
+                <div class="bg-black p-8 rounded-3xl border-2 border-gray-800 flex flex-col hover:border-red-500/50 transition duration-300"><h3 class="font-bold text-3xl text-center">Elite</h3><p class="text-center text-gray-400 mb-6">All-in access</p><p class="font-bold text-5xl md:text-6xl text-center text-red-500 mb-6">₹8000<span class="text-xl font-normal text-gray-400">/mo</span></p><ul class="space-y-4 text-gray-300 flex-grow mb-8"><li><i class="fas fa-check text-red-500 mr-2"></i>Full Gym Access</li><li><i class="fas fa-check text-red-500 mr-2"></i>Locker Rooms</li><li><i class="fas fa-check text-red-500 mr-2"></i>All Group Classes</li><li><i class="fas fa-check text-red-500 mr-2"></i>4x Personal Training/mo</li></ul><a href="#" class="w-full mt-auto block text-center bg-gray-700 text-white font-bold py-4 px-8 rounded-full uppercase hover:bg-gray-600 transition">Sign Up</a></div>
             </div>
         </div>
     </section>
@@ -305,18 +551,10 @@
             <div>
                 <h2 class="section-title text-3xl md:text-4xl mb-4">Get In Touch</h2>
                 <p class="text-gray-400 mb-8">Have questions or ready to start? Drop us a line or visit us.</p>
-                <form>
-                    <div class="mb-4"><input type="text" placeholder="Your Name" class="w-full p-4 bg-gray-800 border border-gray-700 rounded-xl focus:outline-none focus:border-red-500 transition"></div>
-                    <div class="mb-4"><input type="email" placeholder="Your Email" class="w-full p-4 bg-gray-800 border border-gray-700 rounded-xl focus:outline-none focus:border-red-500 transition"></div>
-                    <div class="mb-4"><textarea placeholder="Your Message" rows="5" class="w-full p-4 bg-gray-800 border border-gray-700 rounded-xl focus:outline-none focus:border-red-500 transition"></textarea></div>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                         <a href="https://wa.me/911234567890?text=Hi, I'm interested in Alpha Builder!" target="_blank" class="flex-1 flex items-center justify-center gap-2 text-center bg-green-500 text-white font-bold py-4 px-6 rounded-full uppercase hover:bg-green-600 transition"><i class="fab fa-whatsapp"></i><span>WhatsApp Us</span></a>
-                         <a href="mailto:contact@alphabuilder.com" class="flex-1 flex items-center justify-center gap-2 text-center bg-gray-700 text-white font-bold py-4 px-6 rounded-full uppercase hover:bg-gray-600 transition"><i class="fas fa-envelope"></i><span>Email Us</span></a>
-                    </div>
-                </form>
+                <form><div class="mb-4"><input type="text" placeholder="Your Name" class="w-full p-4 bg-gray-800 border border-gray-700 rounded-xl focus:outline-none focus:border-red-500 transition"></div><div class="mb-4"><input type="email" placeholder="Your Email" class="w-full p-4 bg-gray-800 border border-gray-700 rounded-xl focus:outline-none focus:border-red-500 transition"></div><div class="mb-4"><textarea placeholder="Your Message" rows="5" class="w-full p-4 bg-gray-800 border border-gray-700 rounded-xl focus:outline-none focus:border-red-500 transition"></textarea></div><div class="flex flex-col sm:flex-row gap-4"><a href="https://wa.me/911234567890?text=Hi, I'm interested in Alpha Builder!" target="_blank" class="flex-1 flex items-center justify-center gap-2 text-center bg-green-500 text-white font-bold py-4 px-6 rounded-full uppercase hover:bg-green-600 transition"><i class="fab fa-whatsapp"></i><span>WhatsApp Us</span></a><a href="mailto:contact@alphabuilder.com" class="flex-1 flex items-center justify-center gap-2 text-center bg-gray-700 text-white font-bold py-4 px-6 rounded-full uppercase hover:bg-gray-600 transition"><i class="fas fa-envelope"></i><span>Email Us</span></a></div></form>
             </div>
             <div>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322283!2d106.81956135078819!3d-6.194741395534831!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5390917b759%3A0x6b45e67356240452!2sPlaza%20Indonesia!5e0!3m2!1sen!2sid!4v1631721653242!5m2!1sen!2sid" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" class="rounded-3xl neon-box"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322283!2d106.81956135078819!3d-6.194741395534831!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5390917b759%3A0x6b45e67356240452!2sPlaza%20Indonesia!5e0!3m2!1sen!2sid!4v1631721653242!5m2!1sen!2sid" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" class="rounded-3xl border-2 border-red-500/30"></iframe>
             </div>
         </div>
     </section>
@@ -324,64 +562,77 @@
     <!-- Footer -->
     <footer class="bg-black pt-12 pb-24 md:pb-12">
         <div class="container mx-auto px-6">
-            <div class="text-center text-gray-400 mb-12">
-                <p class="text-2xl italic font-light">"Your Gym's Website Isn't Just a Page—It's Your Best Salesperson."</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-gray-400">
-                <div><h3 class="text-2xl font-bold text-white mb-4">Alpha <span class="text-red-500">Builder</span></h3><p>Forge your legacy with us. The ultimate fitness destination.</p></div>
+            <div class="text-center text-gray-400 mb-12"><p class="text-xl md:text-2xl italic font-light">"Your Gym's Website Isn't Just a Page—It's Your Best Salesperson."</p></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-gray-400">
+                <div class="md:col-span-2 lg:col-span-1"><h3 class="text-2xl font-bold text-white mb-4">Alpha <span class="text-red-500">Builder</span></h3><p>Forge your legacy with us. The ultimate fitness destination.</p></div>
                 <div><h4 class="text-xl font-bold text-white mb-4">Quick Links</h4><ul><li class="mb-2"><a href="#about" class="hover:text-white">About Us</a></li><li class="mb-2"><a href="#classes" class="hover:text-white">Classes</a></li><li class="mb-2"><a href="#pricing" class="hover:text-white">Pricing</a></li><li class="mb-2"><a href="#contact" class="hover:text-white">Contact</a></li></ul></div>
-                <div><h4 class="text-xl font-bold text-white mb-4">Working Hours</h4><ul><li class="mb-2">Mon - Fri: 5:00 AM - 11:00 PM</li><li class="mb-2">Sat: 7:00 AM - 10:00 PM</li><li class="mb-2">Sun: 8:00 AM - 8:00 PM</li></ul></div>
+                <div><h4 class="text-xl font-bold text-white mb-4">Working Hours</h4><ul><li class="mb-2">Mon - Fri: 5AM - 11PM</li><li class="mb-2">Sat: 7AM - 10PM</li><li class="mb-2">Sun: 8AM - 8PM</li></ul></div>
                 <div><h4 class="text-xl font-bold text-white mb-4">Contact Us</h4><ul><li class="mb-2"><i class="fas fa-map-marker-alt mr-2 text-red-500"></i> 123 Fitness St, Workout City</li><li class="mb-2"><i class="fas fa-phone-alt mr-2 text-red-500"></i> (123) 456-7890</li><li class="mb-2"><i class="fas fa-envelope mr-2 text-red-500"></i> contact@alphabuilder.com</li></ul></div>
             </div>
-            <div class="border-t border-gray-800 mt-8 py-6 text-center text-gray-500">
-                <p>&copy; 2024 Alpha Builder. All Rights Reserved.</p>
-            </div>
+            <div class="border-t border-gray-800 mt-8 py-6 text-center text-gray-500"><p>&copy; 2024 Alpha Builder. All Rights Reserved.</p></div>
         </div>
     </footer>
 
-    <!-- WhatsApp FAB -->
-    <div class="whatsapp-fab"><a href="https://wa.me/911234567890" target="_blank"><i class="fab fa-whatsapp fa-2x"></i></a></div>
-    
     <!-- Sticky Mobile CTA -->
-    <a href="https://wa.me/911234567890?text=Hi!%20I'm%20interested%20in%20joining%20Alpha%20Builder." target="_blank" class="md:hidden fixed bottom-0 left-0 right-0 bg-red-600 text-white text-center p-4 text-lg font-bold uppercase z-50 hover:bg-red-700 transition">
-        Join Now
-    </a>
+    <a href="https://wa.me/911234567890?text=Hi!%20I'm%20interested%20in%20joining%20Alpha%20Builder." target="_blank" class="md:hidden fixed bottom-0 left-0 right-0 bg-red-600 text-white text-center p-4 text-lg font-bold uppercase z-40 hover:bg-red-700 transition">Join Now</a>
 
     <!-- JavaScript -->
     <script>
-        // Mobile Menu Toggle
+        // --- Mobile Menu Toggle ---
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        
+        mobileMenuButton.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent click from bubbling up
+            mobileMenu.classList.toggle('open');
+            mobileMenuButton.classList.toggle('open');
         });
 
-        // Intersection Observer for animations
+        // Close menu when a link is clicked
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                mobileMenuButton.classList.remove('open');
+            });
+        });
+
+        // Close menu if clicking outside of it
+        document.addEventListener('click', (e) => {
+            if (mobileMenu.classList.contains('open') && !mobileMenu.contains(e.target) && e.target !== mobileMenuButton) {
+                 mobileMenu.classList.remove('open');
+                 mobileMenuButton.classList.remove('open');
+            }
+        });
+
+        // --- Intersection Observer for animations ---
         const animationObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    // Check if the animated element contains counters
+                    // Animate counters if they are in the visible element
                     entry.target.querySelectorAll('.counter').forEach(counter => {
-                        animateCounter(counter);
+                        // Ensure we only animate it once
+                        if (!counter.hasAttribute('data-animated')) {
+                            animateCounter(counter);
+                            counter.setAttribute('data-animated', 'true');
+                        }
                     });
                     observer.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1 });
 
-        // Animate Counters
+        // --- Animate Counters ---
         const animateCounter = (counter) => {
             const target = +counter.getAttribute('data-target');
             let current = 0;
-            const increment = target / 100; // Animate over ~100 steps
-
+            const duration = 2000; // 2 seconds
+            const stepTime = Math.abs(Math.floor(duration / target));
+            
             const updateCount = () => {
+                const increment = target / (duration / (1000/60)); // Calculate increment per frame
+                current += increment;
                 if (current < target) {
-                    current += increment;
                     counter.innerText = Math.ceil(current).toLocaleString();
                     requestAnimationFrame(updateCount);
                 } else {
@@ -391,7 +642,7 @@
             updateCount();
         };
 
-        // Observe elements for animations
+        // Observe all elements with the .scroll-animate class
         document.querySelectorAll('.scroll-animate').forEach((el) => {
             animationObserver.observe(el);
         });
